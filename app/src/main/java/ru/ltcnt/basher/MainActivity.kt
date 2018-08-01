@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
             val posts = doc.select("div.text")
             for (post in posts) {
                 post.childNodes()
-                        .filter { (it as? Element)?.tag().toString() != "br" }
+                        .filter { it is TextNode }
                         .forEach {
                             println((it as TextNode).text())
                         }
