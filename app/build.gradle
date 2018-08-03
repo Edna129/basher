@@ -1,8 +1,7 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 27
@@ -30,10 +29,24 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:$support_version"
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
 
-    implementation "org.htmlparser:htmlparser:2.1"
+    //rx java
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
 
-    // https://mvnrepository.com/artifact/org.jsoup/jsoup
+    // moxy MVP
+    implementation 'com.arello-mobile:moxy:1.5.3'
+    annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.3'
+    implementation 'com.arello-mobile:moxy-android:1.5.3'
+    implementation 'com.arello-mobile:moxy-app-compat:1.5.3'
+    kapt 'com.arello-mobile:moxy-compiler:1.5.3'
+
+
+    // HTML parser
     implementation 'org.jsoup:jsoup:1.11.3'
+
+    // dagger
+    implementation "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
 
 
