@@ -2,6 +2,7 @@ package ru.ltcnt.basher.presentation
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
+import io.reactivex.disposables.CompositeDisposable
 import ru.ltcnt.basher.app.BasherApplication
 import ru.ltcnt.basher.domain.ApiRepositoryImpl
 import ru.ltcnt.basher.utils.androidAsync
@@ -17,23 +18,31 @@ class MainPresenter: MvpPresenter<MainView>() {
         BasherApplication.appComponent.inject(this)
     }
 
+    private val compositeDisposable = CompositeDisposable()
+
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         loadPosts()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.dispose()
+    }
+
     fun loadPosts(){
         viewState.showLoading()
         viewState.clearData()
-        repository.getLastPage()
-                .compose {
-                    it.androidAsync()
-                }.subscribe({
-                    viewState.showData(it.posts)
-                    viewState.hideLoading()
-                },{
-                    it.printStackTrace()
-                    viewState.hideLoading()
-                })
+        compositeDisposable.add(repository.getLastPage()
+            .compose {
+                it.androidAsync()
+            }.subscribe({
+                viewState.showData(it.posts)
+                viewState.hideLoading()
+            },{
+                it.printStackTrace()
+                viewState.hideLoading()
+            })
+        )
     }
 }
