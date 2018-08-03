@@ -1,4 +1,4 @@
-package ru.ltcnt.basher
+package ru.ltcnt.basher.domain
 
 import io.reactivex.Observable
 import ru.ltcnt.basher.data.models.BashPageResponse

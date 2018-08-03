@@ -11,8 +11,8 @@ class BasherApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         appComponent = DaggerAppComponent.builder()
-                .apiModule(ApiModule())
-                .build()
+            .apiModule(ApiModule())
+            .build()
     }
 
 }
