@@ -71,4 +71,8 @@ class MainPresenter: BasePresenter<MainView>() {
         } else
             viewState.showError("Все")
     }
+
+    fun onItemLongClick(post: BashPostView) {
+        viewState.showError("Текст скопирован в буфер обмена")
+    }
 }

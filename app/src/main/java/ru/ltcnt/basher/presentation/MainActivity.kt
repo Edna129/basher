@@ -10,6 +10,7 @@ import ru.ltcnt.basher.R
 import ru.ltcnt.basher.app.BasherApplication
 import ru.ltcnt.basher.domain.viewModels.BashPostView
 import ru.ltcnt.basher.presentation.base.BaseView
+import ru.ltcnt.basher.utils.copyToClipboard
 
 interface MainView: BaseView{
     fun showLoading()
@@ -22,9 +23,13 @@ class MainActivity : MvpAppCompatActivity(), MainView {
     @InjectPresenter
     lateinit var presenter: MainPresenter
 
-    private val adapter: PostListAdapter = PostListAdapter(onScrollToBottom = {
-        presenter.onScrollToBottom()
-    })
+    private val adapter: PostListAdapter = PostListAdapter(
+        onScrollToBottom = {
+            presenter.onScrollToBottom()
+        }, onItemLongClick = {
+            this.copyToClipboard(it.text)
+            presenter.onItemLongClick(it)
+        })
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

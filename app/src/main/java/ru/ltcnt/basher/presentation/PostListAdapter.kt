@@ -9,7 +9,8 @@ import ru.ltcnt.basher.R
 import ru.ltcnt.basher.domain.viewModels.BashPostView
 
 class PostListAdapter(
-        private val onScrollToBottom: () -> Unit
+        private val onScrollToBottom: () -> Unit,
+        private val onItemLongClick: (post: BashPostView) -> Unit
 ): RecyclerView.Adapter<PostListAdapter.ViewHolder>() {
     private var data = arrayListOf<BashPostView>()
 
@@ -39,6 +40,10 @@ class PostListAdapter(
             itemView.text.text = item.text
             itemView.postId.text = item.id
             itemView.date.text = item.date
+            itemView.text.setOnLongClickListener {
+                onItemLongClick.invoke(item)
+                true
+            }
         }
     }
 }
