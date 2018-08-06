@@ -1,5 +1,8 @@
 package ru.ltcnt.basher.domain.viewModels
 
 data class BashPostView (
-    val text: String
+    val text: String,
+    val date: String,
+    val id: String,
+    val rating: String
 )

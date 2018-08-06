@@ -37,6 +37,8 @@ class PostListAdapter(
                 onScrollToBottom.invoke()
             }
             itemView.text.text = item.text
+            itemView.postId.text = item.id
+            itemView.date.text = item.date
         }
     }
 }

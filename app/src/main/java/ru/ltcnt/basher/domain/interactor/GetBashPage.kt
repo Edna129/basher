@@ -17,7 +17,7 @@ class GetBashPage @Inject constructor(
         Observable.create<BashPageView> { emitter ->
             emitter.onNext(
                 BashPageView(response.posts.map {
-                    BashPostView(it.text)
+                    BashPostView(it.text, it.date, it.id, it.rating)
                 } as ArrayList<BashPostView>)
             )
             emitter.onComplete()

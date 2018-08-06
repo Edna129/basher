@@ -11,12 +11,30 @@ class ApiRepository: ApiRepositoryImpl {
     override fun getPage(pageNumber: Int): Observable<BashPageResponse> = Observable.create<BashPageResponse> { emitter ->
         val posts = arrayListOf<BashPost>()
         val doc = Jsoup.connect("http://bash.im/index/$pageNumber/").get()
-        val rawPosts = doc.select("div.text")
+        val rawPosts = doc.select("div.quote")
         for (post in rawPosts) {
-                posts.add(BashPost(post.childNodes()
-                .filter { it is TextNode }
-                .joinToString(separator = "\n") { (it as TextNode).text() })
-            )
+            posts.add(BashPost(
+                text = post.select("div.text").firstOrNull()?.let {
+                    it.childNodes()
+                            .filter { it is TextNode }
+                            .joinToString(separator = "\n") { (it as TextNode).text() }
+                }!!,
+                date = post.select(".date")?.firstOrNull()?.let {
+                    it.childNodes()
+                            .filter { it is TextNode }
+                            .joinToString { (it as TextNode).text() }
+                }?: "",
+                id = post.select(".id")?.firstOrNull()?.let {
+                    it.childNodes()
+                            .filter { it is TextNode }
+                            .joinToString { (it as TextNode).text() }
+                }!!,
+                rating = post.select(".rating")?.firstOrNull()?.let {
+                    it.childNodes()
+                            .filter { it is TextNode }
+                            .joinToString { (it as TextNode).text() }
+                }?: ""
+            ))
         }
         emitter.onNext(BashPageResponse(posts))
         emitter.onComplete()

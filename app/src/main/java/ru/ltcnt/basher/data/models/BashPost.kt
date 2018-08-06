@@ -1,5 +1,8 @@
 package ru.ltcnt.basher.data.models
 
 data class BashPost(
-        val text: String
+        var text: String = "",
+        var date: String = "",
+        var id: String = "",
+        var rating: String = ""
 )
