@@ -2,8 +2,8 @@ package ru.ltcnt.basher.app
 
 import dagger.Module
 import dagger.Provides
-import ru.ltcnt.basher.domain.ApiRepositoryImpl
 import ru.ltcnt.basher.data.ApiRepository
+import ru.ltcnt.basher.domain.repository.ApiRepositoryImpl
 import javax.inject.Singleton
 
 @Module

@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.view_item_post.view.*
 import ru.ltcnt.basher.R
-import ru.ltcnt.basher.data.models.BashPost
+import ru.ltcnt.basher.domain.viewModels.BashPostView
 
-class PostListAdapter: RecyclerView.Adapter<PostListAdapter.ViewHolder>() {
-    private var data = arrayListOf<BashPost>()
+class PostListAdapter(
+        private val onScrollToBottom: () -> Unit
+): RecyclerView.Adapter<PostListAdapter.ViewHolder>() {
+    private var data = arrayListOf<BashPostView>()
 
-    fun setData(newDataList: ArrayList<BashPost>){
+    fun setData(newDataList: ArrayList<BashPostView>){
         data = newDataList
         notifyDataSetChanged()
     }
@@ -30,7 +32,10 @@ class PostListAdapter: RecyclerView.Adapter<PostListAdapter.ViewHolder>() {
     }
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view){
-        fun bind(item: BashPost){
+        fun bind(item: BashPostView){
+            if (adapterPosition >= data.lastIndex){
+                onScrollToBottom.invoke()
+            }
             itemView.text.text = item.text
         }
     }

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">basher</string>
+    <string name="some_error">Неизвестная ошибка</string>
 </resources>

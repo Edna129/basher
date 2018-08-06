@@ -1,23 +1,20 @@
 package ru.ltcnt.basher.presentation
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatActivity
-import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.presenter.InjectPresenter
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.ltcnt.basher.R
 import ru.ltcnt.basher.app.BasherApplication
-import ru.ltcnt.basher.data.models.BashPost
-import ru.ltcnt.basher.domain.ApiRepositoryImpl
-import ru.ltcnt.basher.utils.androidAsync
-import javax.inject.Inject
+import ru.ltcnt.basher.domain.viewModels.BashPostView
+import ru.ltcnt.basher.presentation.base.BaseView
 
-interface MainView: MvpView{
+interface MainView: BaseView{
     fun showLoading()
     fun hideLoading()
-    fun showData(data: ArrayList<BashPost>)
+    fun showData(data: ArrayList<BashPostView>)
     fun clearData()
 }
 
@@ -25,7 +22,9 @@ class MainActivity : MvpAppCompatActivity(), MainView {
     @InjectPresenter
     lateinit var presenter: MainPresenter
 
-    private val adapter: PostListAdapter = PostListAdapter()
+    private val adapter: PostListAdapter = PostListAdapter(onScrollToBottom = {
+        presenter.onScrollToBottom()
+    })
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,11 +46,16 @@ class MainActivity : MvpAppCompatActivity(), MainView {
         postListSwipe?.isRefreshing = false
     }
 
-    override fun showData(data: ArrayList<BashPost>) {
+    override fun showData(data: ArrayList<BashPostView>) {
         adapter.setData(data)
     }
 
     override fun clearData() {
         adapter.clearData()
+    }
+
+    override fun showError(text: String?) {
+        Toast.makeText(this, text?: getString(R.string.some_error), Toast.LENGTH_SHORT)
+            .show()
     }
 }
